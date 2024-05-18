@@ -71,21 +71,34 @@ int main(int argc, char **argv)
                         if (accept)
                                 printbuf();
                         else {
-                                if (current)
+                                if (current) {
                                         bitset_free(current);
+                                        free(current);
+                                }
                                 current = next;
                         }
                 } else {
-                        if (next)
+                        if (next) {
                                 bitset_free(next);
-                        if (current)
+                                free(next);
+                        }
+                        if (current) {
                                 bitset_free(current);
+                                free(current);
+                        }
                         current = dupset(start_set);
                 }
-                if (m)
+                if (m) {
                         bitset_free(m);
+                        free(m);
+                }
+        }
+        if (current) {
+                bitset_free(current);
+                free(current);
         }
 
+        bitset_free(start_set);
         free(start_set);
         free_sets(states, p, max_state);
         parser_free();
