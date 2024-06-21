@@ -68,12 +68,13 @@ int main(int argc, char **argv)
                 struct bitset *m = move(current, c);
                 next = e_closure(m, &accept, &anchor);
                 if (next) {
-                        if (accept)
+                        if (accept) {
                                 printbuf();
-                        else {
+                        } else {
                                 if (current) {
                                         bitset_free(current);
                                         free(current);
+                                        current = NULL;
                                 }
                                 current = next;
                         }
@@ -81,25 +82,25 @@ int main(int argc, char **argv)
                         if (next) {
                                 bitset_free(next);
                                 free(next);
+                                next = NULL;
                         }
                         if (current) {
                                 bitset_free(current);
                                 free(current);
+                                current = NULL;
                         }
                         current = dupset(start_set);
-                }
-                if (m) {
-                        bitset_free(m);
-                        free(m);
                 }
         }
         if (current) {
                 bitset_free(current);
                 free(current);
+                current = NULL;
         }
 
         bitset_free(start_set);
         free(start_set);
+        start_set = NULL;
         free_sets(states, p, max_state);
         parser_free();
 }
